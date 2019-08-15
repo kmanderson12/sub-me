@@ -16,7 +16,13 @@ const theme = {
 };
 
 const StyledPage = styled.div`
-  background: ${props => props.theme.blue};
+  /*background: ${props => props.theme.blue};*/
+  background: linear-gradient(
+    rgba(15,44,82,0.9),
+    rgba(15,44,82,0.9)
+    ), url('static/classbg.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
   color: white;
   height: 100vh;
 `;
