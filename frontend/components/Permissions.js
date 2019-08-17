@@ -1,17 +1,18 @@
-import { Query, Mutation } from "react-apollo";
-import Error from "./ErrorMessage";
-import gql from "graphql-tag";
-import Table from "./styles/Table";
-import SickButton from "./styles/SickButton";
-import PropTypes from "prop-types";
+import { Query, Mutation } from 'react-apollo';
+import Error from './ErrorMessage';
+import gql from 'graphql-tag';
+import Table from './styles/Table';
+import YellowButton from './styles/YellowButton';
+import PropTypes from 'prop-types';
 
 const possiblePermissions = [
-  "ADMIN",
-  "USER",
-  "ITEMCREATE",
-  "ITEMUPDATE",
-  "ITEMDELETE",
-  "PERMISSIONUPDATE"
+  'ADMIN',
+  'TEACHER',
+  'SUBSTITUTE',
+  'CREATEITEM',
+  'UPDATEITEM',
+  'DELETEITEM',
+  'PERMISSIONUPDATE'
 ];
 
 const UPDATE_PERMISSIONS_MUTATION = gql`
@@ -135,13 +136,13 @@ class UserPermissions extends React.Component {
                 </td>
               ))}
               <td>
-                <SickButton
+                <YellowButton
                   type="button"
                   disabled={loading}
                   onClick={updatePermissions}
                 >
-                  Updat{loading ? "ing" : "e"}
-                </SickButton>
+                  Updat{loading ? 'ing' : 'e'}
+                </YellowButton>
               </td>
             </tr>
           </>

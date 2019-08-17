@@ -1,25 +1,11 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import NavStyles from './styles/NavStyles';
+import YellowButton from './styles/YellowButton'
 import User from './User';
 import Signout from './Signout';
 import { Mutation } from 'react-apollo';
 
-const SignUpButton = styled.button`
-  background: ${props => props.theme.yellow};
-  color: ${props => props.theme.blue};
-  padding: 1.5rem;
-  border: none;
-  outline: none;
-  border-radius: 20px;
-  margin-right: 2rem;
-  font-size: 1.5rem;
-  font-weight: 800;
-  &:hover {
-    color: ${props => props.theme.offWhite};
-    cursor: pointer;
-  }
-`;
 
 const Nav = () => (
   <User>
@@ -33,20 +19,22 @@ const Nav = () => (
         </Link>
         {me && (
           <>
-            <Link href="/me">
+            <Link href="/account">
               <a>Account</a>
             </Link>
             <Signout />
           </>
         )}
         {!me && (
+          <>
           <Link href="/login">
             <a>Log In</a>
           </Link>
-        )}
         <Link href="/signup">
-          <SignUpButton>Sign Up</SignUpButton>
+          <YellowButton>Sign Up</YellowButton>
         </Link>
+        </>
+        )}
       </NavStyles>
     )}
   </User>
