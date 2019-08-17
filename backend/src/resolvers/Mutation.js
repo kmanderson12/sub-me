@@ -5,6 +5,9 @@ const { promisify } = require('util');
 const { transport, makeANiceEmail } = require('../mail');
 const { hasPermission } = require('../utils');
 const stripe = require('../stripe');
+const accountSid = 'AC2e3173b88e5271c068eafd17f5b4412b';
+const authToken = '3e0b2c6e6a3c1f8e8b1aa08fbd469100';
+const client = require('twilio')(accountSid, authToken);
 
 const Mutations = {
   async signup(parent, args, ctx, info) {
@@ -18,8 +21,8 @@ const Mutations = {
         data: {
           ...args,
           password,
-          permissions: { set: ['ADMIN'] }
-        }
+          permissions: { set: ['ADMIN'] },
+        },
       },
       info
     );
@@ -35,7 +38,7 @@ const Mutations = {
       secure: process.env.NODE_ENV === 'development' ? false : true,
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 365,
-      sameSite: 'lax'
+      sameSite: 'lax',
     });
     // return user to browser
     return user;
@@ -58,7 +61,7 @@ const Mutations = {
     //set the coolie with the token
     ctx.response.cookie('token', token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 365 //1 year cookie
+      maxAge: 1000 * 60 * 60 * 24 * 365, //1 year cookie
     });
     //return the user
     return user;
@@ -69,7 +72,7 @@ const Mutations = {
       domain:
         process.env.NODE_ENV === 'development'
           ? process.env.LOCAL_DOMAIN
-          : process.env.APP_DOMAIN
+          : process.env.APP_DOMAIN,
     });
     return { message: 'Goodbye!' };
   },
@@ -86,7 +89,7 @@ const Mutations = {
     const resetTokenExpiry = Date.now() + 3600000;
     const res = await ctx.db.mutation.updateUser({
       where: { email: args.email },
-      data: { resetToken, resetTokenExpiry }
+      data: { resetToken, resetTokenExpiry },
     });
 
     // 3. email them the token
@@ -97,7 +100,7 @@ const Mutations = {
       html: makeANiceEmail(`Your password reset token is here!
       \n\n
       <a href="${process.env.FRONTEND_URL}/reset?resetToken=${resetToken}">
-      Click Here to Reset</a>`)
+      Click Here to Reset</a>`),
     });
 
     return { message: 'Thanks!' };
@@ -113,8 +116,8 @@ const Mutations = {
     const [user] = await ctx.db.query.users({
       where: {
         resetToken: args.resetToken,
-        resetTokenExpiry_gte: Date.now() - 3600000
-      }
+        resetTokenExpiry_gte: Date.now() - 3600000,
+      },
     });
     if (!user) {
       throw new Error('This token is either invalid or expired!');
@@ -127,15 +130,15 @@ const Mutations = {
       data: {
         password,
         resetToken: null,
-        resetTokenExpiry: null
-      }
+        resetTokenExpiry: null,
+      },
     });
     // generate jwt
     const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
     // set the jwt cookie
     ctx.response.cookie('token', token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 365 //sec min hr day yr
+      maxAge: 1000 * 60 * 60 * 24 * 365, //sec min hr day yr
     });
     // return new user
     return updatedUser;
@@ -151,8 +154,8 @@ const Mutations = {
     const currentUser = await ctx.db.query.user(
       {
         where: {
-          id: ctx.request.userId
-        }
+          id: ctx.request.userId,
+        },
       },
       info
     );
@@ -163,27 +166,51 @@ const Mutations = {
       {
         data: {
           permissions: {
-            set: args.permissions
-          }
+            set: args.permissions,
+          },
         },
         where: {
-          id: args.userId
-        }
+          id: args.userId,
+        },
       },
       info
     );
-  }
-  // SubMe Submission or handleTeacherAbsence
-  // 1. Confirm user
-  // 2. Log Teacher Absence
-  //   2a. Update teacher availability
-  // 3. Get teacher's sub list
-  // 4. Send SMS to Sub 1 (Expiration? Link to Reply or Text confirm?)
-  // 5. Handle Sub1 SMS Response
-  //   5a. YES -> Confirmations and Add Sub to Schedule
-  //   5b. NO -> Move to Sub2 and repeat 5
-  //      - Handle all NOs (message to Admin)
-  //
+  },
+  async handleAbsence(parent, args, ctx, info) {
+    //check if logged in
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in!');
+    }
+    // query current user
+    const currentUser = await ctx.db.query.user(
+      {
+        where: {
+          id: ctx.request.userId,
+        },
+      },
+      info
+    );
+    // 2. Log Teacher Absence
+    //   2a. Update teacher availability
+    // 3. Get teacher's sub list
+    // 4. Send SMS to Sub 1 (Expiration? Link to Reply or Text confirm?)
+    console.log(`Sending SMS to Sub1`);
+    client.messages
+      .create({
+        body: `Sub Request for ${args.name}. Date: ${
+          args.date
+        }. Reply YES to accept. Reply NO to decline.`,
+        from: '+19312885317',
+        to: '+19318089918',
+      })
+      .then(message => console.log(message.sid));
+    // 5. Handle Sub1 SMS Response
+    //   5a. YES -> Confirmations and Add Sub to Schedule
+    //   5b. NO -> Move to Sub2 and repeat 5
+    //      - Handle all NOs (message to Admin)
+    //
+    return { message: 'Message sent!' };
+  },
 };
 
 module.exports = Mutations;

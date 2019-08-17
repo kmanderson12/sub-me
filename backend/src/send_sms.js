@@ -7,8 +7,8 @@ const client = require('twilio')(accountSid, authToken);
 
 client.messages
   .create({
-     body: 'This is Kyle from the future. WARNING: SOMEONE POISONED THE COFFEE! Cordially, Kyle',
-     from: '+19312885317',
-     to: '+19318089918'
-   })
+    body: 'This is a test message from the SubMe app.',
+    from: '+19312885317',
+    to: '+19318089918',
+  })
   .then(message => console.log(message.sid));
