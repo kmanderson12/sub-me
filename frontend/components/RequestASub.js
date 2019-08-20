@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import { format } from 'date-fns';
 import Form from './styles/Form';
 import Error from './ErrorMessage';
 import { CURRENT_USER_QUERY } from './User';
@@ -24,6 +25,8 @@ class RequestASub extends Component {
       [e.target.name]: e.target.value,
     });
   };
+
+  setDate = date => this.setState({ date: format(date, 'yyyy-MM-dd') });
 
   //TODO: Add loading and error with mutation
   render() {
@@ -60,7 +63,6 @@ class RequestASub extends Component {
                     onChange={this.saveToState}
                   />
                 </label>
-
                 <label htmlFor="date">
                   Date
                   <input

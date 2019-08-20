@@ -1,12 +1,14 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config({ path: 'variables.env' });
 const bcrypt = require('bcryptjs');
 const { randomBytes } = require('crypto');
 const { promisify } = require('util');
 const { transport, makeANiceEmail } = require('../mail');
 const { hasPermission } = require('../utils');
 const stripe = require('../stripe');
-const accountSid = 'AC2e3173b88e5271c068eafd17f5b4412b';
-const authToken = '3e0b2c6e6a3c1f8e8b1aa08fbd469100';
+
+const accountSid = process.env.TWILIO_SID;
+const authToken = process.env.TWILIO_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 
 const Mutations = {
