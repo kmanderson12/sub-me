@@ -6,6 +6,7 @@ const { promisify } = require('util');
 const { transport, makeANiceEmail } = require('../mail');
 const { hasPermission } = require('../utils');
 const stripe = require('../stripe');
+const TinyURL = require('tinyurl');
 
 const accountSid = process.env.TWILIO_SID;
 const authToken = process.env.TWILIO_TOKEN;
@@ -192,6 +193,7 @@ const Mutations = {
       },
       info
     );
+
     // 2. Log Teacher Absence
     //   2a. Update teacher availability
     // 3. Get teacher's sub list
@@ -199,9 +201,10 @@ const Mutations = {
     console.log(`Sending SMS to Sub1`);
     client.messages
       .create({
-        body: `Sub Request for ${args.name}. Date: ${
-          args.date
-        }. Reply YES to accept. Reply NO to decline.`,
+        body: `Sub Request for ${args.name}.
+        Date: ${args.date}
+        Grade: 3rd
+        To accept: https://sickfits-kma-prd.herokuapp.com/`,
         from: '+19312885317',
         to: '+19318089918',
       })
