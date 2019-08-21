@@ -51,7 +51,7 @@ class RequestASub extends Component {
               }}
             >
               <fieldset>
-                <h2>I need a sub!</h2>
+                <legend>Request A Sub</legend>
 
                 <label htmlFor="name">
                   Name
