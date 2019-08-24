@@ -162,6 +162,7 @@ const Mutations = {
       },
       info
     );
+    //TODO: Remove Admin default permissions
     // check if permissions
     hasPermission(currentUser, ['ADMIN', 'PERMISSIONUPDATE']);
 

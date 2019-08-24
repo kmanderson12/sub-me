@@ -19,6 +19,11 @@ const Form = styled.form`
   font-size: 1.5rem;
   line-height: 1.5;
   font-weight: 600;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
   legend {
     font-size: 2.5rem;
   }
@@ -31,13 +36,13 @@ const Form = styled.form`
   textarea,
   select {
     width: 100%;
-    background: none;
-    color: white;
+    background: white;
+    color: ${props => props.theme.black};
     outline: none;
     padding: 0.5rem;
     font-size: 1.5rem;
     font-family: 'Montserrat';
-    border-bottom: 2px solid white;
+    border: 2px solid white;
     border-radius: 6px;
     &:focus {
       outline: 0;
@@ -46,7 +51,7 @@ const Form = styled.form`
   }
   button,
   input[type='submit'] {
-    width: auto;
+    width: 100%;
     background: ${props => props.theme.yellow};
     color: white;
     border: 0;
@@ -59,9 +64,18 @@ const Form = styled.form`
     border: 2px solid white;
     padding: 2rem;
     border-radius: 14px;
-
+    width: 100%;
     &[disabled] {
       opacity: 0.5;
+    }
+    a {
+      display: block;
+      text-align: right;
+      font-weight: 300;
+      margin-top: 1rem;
+      &:hover {
+        color: ${props => props.theme.yellow};
+      }
     }
   }
 `;
