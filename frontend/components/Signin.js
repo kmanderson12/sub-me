@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import Link from 'next/link';
+import Router from 'next/router';
 import gql from 'graphql-tag';
 import Form from './styles/Form';
 import Error from './ErrorMessage';
 import { CURRENT_USER_QUERY } from './User';
+import sleep from '../lib/sleep';
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -47,6 +49,10 @@ class Signin extends Component {
                   name: '',
                   email: '',
                   password: '',
+                });
+                await sleep(1000);
+                Router.push({
+                  pathname: '/account',
                 });
               }}
             >

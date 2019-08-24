@@ -52,13 +52,14 @@ const Form = styled.form`
   button,
   input[type='submit'] {
     width: 100%;
+    margin: 1rem 0;
     background: ${props => props.theme.yellow};
     color: white;
     border: 0;
     font-size: 2rem;
     font-weight: 600;
     border-radius: 8px;
-    padding: 0.5rem 1.2rem;
+    padding: 1rem 1.2rem;
   }
   fieldset {
     border: 2px solid white;

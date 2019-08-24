@@ -15,7 +15,7 @@ type Mutation {
     confirmPassword: String!
   ): User!
   updatePermissions(permissions: [Permission], userId: ID!): User
-  handleAbsence(name: String!, date: String!): SuccessMessage
+  handleAbsence(name: String!, date: String!, grade: String!): SuccessMessage
 }
 
 type Query {

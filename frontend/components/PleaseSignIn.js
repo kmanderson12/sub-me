@@ -1,6 +1,12 @@
-import { Query } from "react-apollo";
-import { CURRENT_USER_QUERY } from "./User";
-import SignIn from "./Signin";
+import { Query } from 'react-apollo';
+import { CURRENT_USER_QUERY } from './User';
+import SignIn from './Signin';
+import styled from 'styled-components';
+
+const Centered = styled.div`
+  margin: 0 auto;
+  text-align: center;
+`;
 
 const PleaseSignIn = props => (
   <Query query={CURRENT_USER_QUERY}>
@@ -9,7 +15,9 @@ const PleaseSignIn = props => (
       if (!data.me) {
         return (
           <div>
-            <p>Please Sign In Before Continuing</p>
+            <Centered>
+              <p>Please Sign In Before Continuing</p>
+            </Centered>
             <SignIn />
           </div>
         );

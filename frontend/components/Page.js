@@ -51,7 +51,7 @@ injectGlobal`
         line-height: 2;
         font-family: 'Montserrat';
         width: 100%;
-        height: 100vh;
+        min-height: 100vh;
     }
     a {
         text-decoration: none;

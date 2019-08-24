@@ -1,8 +1,11 @@
 import RequestASub from '../components/RequestASub';
+import PleaseSignIn from '../components/PleaseSignIn';
 
 const Request = () => (
   <div>
-    <RequestASub />
+    <PleaseSignIn>
+      <RequestASub />
+    </PleaseSignIn>
   </div>
 );
 

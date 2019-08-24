@@ -204,7 +204,7 @@ const Mutations = {
       .create({
         body: `Sub Request for ${args.name}.
         Date: ${args.date}
-        Grade: 3rd
+        Grade: ${args.grade}
         To accept: https://sickfits-kma-prd.herokuapp.com/`,
         from: '+19312885317',
         to: '+19318089918',
