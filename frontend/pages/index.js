@@ -7,7 +7,13 @@ const HeroDiv = styled.div`
   min-height: 400px;
   justify-content: flex-end;
   flex-direction: column;
-  color: white;
+  color: ${props => props.theme.blue};
+  background: linear-gradient(
+    29deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.4) -6%,
+    rgba(255, 255, 255, 0) 100%
+  );
   h1 {
     margin: 0;
   }
@@ -22,7 +28,8 @@ const HeroDiv = styled.div`
     padding: 1.5rem;
     border: none;
     outline: none;
-    border-radius: 20px;
+    border-radius: 39px;
+    box-shadow: 2px 2px 1px rgba(15, 44, 82, 0.4);
     margin-right: 2rem;
     font-size: 3rem;
     font-weight: 800;

@@ -9,7 +9,7 @@ const NavStyles = styled.ul`
   font-size: 1.5rem;
   a {
     padding: 1rem 3rem;
-    color: white;
+    color: ${props => props.theme.blue};
     display: flex;
     align-items: center;
     position: relative;

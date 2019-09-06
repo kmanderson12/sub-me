@@ -6,7 +6,7 @@ import Meta from '../components/Meta';
 const theme = {
   red: '#FF0000',
   blue: '#0f2c52',
-  yellow: '#fcb426',
+  yellow: 'rgb(84,181,206)',
   black: '#393939',
   grey: '#3A3A3A',
   lightgrey: '#E1E1E1',
@@ -17,13 +17,15 @@ const theme = {
 
 const StyledPage = styled.div`
   /*background: ${props => props.theme.blue};*/
-  background: linear-gradient(
+  /* background: linear-gradient(
     rgba(15,44,82,0.9),
     rgba(15,44,82,0.9)
     ), url('static/classbg.jpeg');
   background-repeat: no-repeat;
-  background-size: cover;
-  color: white;
+  background-size: cover; */
+  color: ${props => props.theme.black};
+  background: url('static/pattern-light.svg');
+  background-size: 700px;
   height: 100vh;
 `;
 
@@ -52,10 +54,11 @@ injectGlobal`
         font-family: 'Montserrat';
         width: 100%;
         min-height: 100vh;
+        color: ${props => props.theme.black};
     }
     a {
         text-decoration: none;
-        color: white;
+        color: ${props => props.theme.black};
     }
 `;
 
