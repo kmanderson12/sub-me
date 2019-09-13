@@ -1,3 +1,3 @@
-# Advanced-React
+# SubMe App - Frontend
 
-frontend
+Built in React with Next.js and styled components.
