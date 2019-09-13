@@ -26,10 +26,10 @@ const HeroDiv = styled.div`
     background: ${props => props.theme.yellow};
     color: ${props => props.theme.blue};
     padding: 1.5rem;
-    border: none;
+    border: 1px solid #0f2c52;
     outline: none;
     border-radius: 39px;
-    box-shadow: 2px 2px 1px rgba(15, 44, 82, 0.4);
+    /*box-shadow: 2px 2px 1px rgba(15, 44, 82, 0.4);*/
     margin-right: 2rem;
     font-size: 3rem;
     font-weight: 800;

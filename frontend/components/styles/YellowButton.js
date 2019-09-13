@@ -4,7 +4,7 @@ const YellowButton = styled.button`
   background: ${props => props.theme.yellow};
   color: ${props => props.theme.blue};
   padding: 1.5rem;
-  border: none;
+  border: 1px solid #0f2c52;
   outline: none;
   border-radius: 20px;
   margin-right: 2rem;

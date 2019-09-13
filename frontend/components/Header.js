@@ -24,7 +24,9 @@ const Logo = styled.h1`
     padding: 0.5rem 3rem;
     color: ${props => props.theme.yellow};
     text-decoration: none;
-    text-shadow: 2px 2px 2px rgba(15, 44, 82, 0.7);
+    /*text-shadow: 2px 2px 2px rgba(15, 44, 82, 0.7);*/
+    text-shadow: -1px -1px 0 #0f2c52, 1px -1px 0 #0f2c52, -1px 1px 0 #0f2c52,
+      1px 1px 0 #0f2c52;
   }
   @media (max-width: 1300px) {
     margin: 0;
@@ -35,10 +37,10 @@ const Logo = styled.h1`
 const StyledHeader = styled.header`
   display: flex;
   align-items: center;
-  background: linear-gradient(
+  /*background: linear-gradient(
     rgba(255, 255, 255, 0.7),
     rgba(255, 255, 255, 0.2)
-  );
+  );*/
   img {
     height: 40px;
     &:hover {
