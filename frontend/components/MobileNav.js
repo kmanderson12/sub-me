@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styled from 'styled-components';
+import {slide as Menu} from 'react-burger-menu';
 import MobileNavStyles from './styles/MobileNavStyles';
 import YellowButton from './styles/YellowButton';
 import User from './User';
@@ -9,7 +10,7 @@ import { Mutation } from 'react-apollo';
 const MobileNav = () => (
   <User>
     {({ data: { me } }) => (
-      <MobileNavStyles data-test="nav">
+      <Menu right >
         <Link href="/">
           <a>Home</a>
         </Link>
@@ -34,7 +35,7 @@ const MobileNav = () => (
             </Link>
           </>
         )}
-      </MobileNavStyles>
+      </Menu>
     )}
   </User>
 );

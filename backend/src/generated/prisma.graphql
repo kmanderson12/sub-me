@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/kyle-anderson-c59e41/sub-me/dev
-# timestamp: Fri Aug 16 2019 22:33:46 GMT-0500 (Central Daylight Time)
+# timestamp: Fri Sep 13 2019 20:55:14 GMT-0500 (Central Daylight Time)
 
 type AggregateUser {
   count: Int!
@@ -8,6 +8,11 @@ type AggregateUser {
 type BatchPayload {
   """The number of nodes that have been affected by the Batch operation."""
   count: Long!
+}
+
+enum contactPreferences {
+  Email
+  Text
 }
 
 scalar DateTime
@@ -85,6 +90,8 @@ type User implements Node {
   name: String!
   email: String!
   password: String!
+  phone: String
+  contactPreference: [contactPreferences!]!
   resetToken: String
   resetTokenExpiry: Float
   permissions: [Permission!]!
@@ -102,13 +109,19 @@ type UserConnection {
   aggregate: AggregateUser!
 }
 
+input UserCreatecontactPreferenceInput {
+  set: [contactPreferences!]
+}
+
 input UserCreateInput {
   id: ID
   name: String!
   email: String!
   password: String!
+  phone: String
   resetToken: String
   resetTokenExpiry: Float
+  contactPreference: UserCreatecontactPreferenceInput
   permissions: UserCreatepermissionsInput
 }
 
@@ -134,6 +147,8 @@ enum UserOrderByInput {
   email_DESC
   password_ASC
   password_DESC
+  phone_ASC
+  phone_DESC
   resetToken_ASC
   resetToken_DESC
   resetTokenExpiry_ASC
@@ -149,6 +164,8 @@ type UserPreviousValues {
   name: String!
   email: String!
   password: String!
+  phone: String
+  contactPreference: [contactPreferences!]!
   resetToken: String
   resetTokenExpiry: Float
   permissions: [Permission!]!
@@ -195,12 +212,18 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
+input UserUpdatecontactPreferenceInput {
+  set: [contactPreferences!]
+}
+
 input UserUpdateInput {
   name: String
   email: String
   password: String
+  phone: String
   resetToken: String
   resetTokenExpiry: Float
+  contactPreference: UserUpdatecontactPreferenceInput
   permissions: UserUpdatepermissionsInput
 }
 
@@ -208,8 +231,10 @@ input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
+  phone: String
   resetToken: String
   resetTokenExpiry: Float
+  contactPreference: UserUpdatecontactPreferenceInput
   permissions: UserUpdatepermissionsInput
 }
 
@@ -386,6 +411,46 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   password_not_ends_with: String
+  phone: String
+
+  """All values that are not equal to given value."""
+  phone_not: String
+
+  """All values that are contained in given list."""
+  phone_in: [String!]
+
+  """All values that are not contained in given list."""
+  phone_not_in: [String!]
+
+  """All values less than the given value."""
+  phone_lt: String
+
+  """All values less than or equal the given value."""
+  phone_lte: String
+
+  """All values greater than the given value."""
+  phone_gt: String
+
+  """All values greater than or equal the given value."""
+  phone_gte: String
+
+  """All values containing the given string."""
+  phone_contains: String
+
+  """All values not containing the given string."""
+  phone_not_contains: String
+
+  """All values starting with the given string."""
+  phone_starts_with: String
+
+  """All values not starting with the given string."""
+  phone_not_starts_with: String
+
+  """All values ending with the given string."""
+  phone_ends_with: String
+
+  """All values not ending with the given string."""
+  phone_not_ends_with: String
   resetToken: String
 
   """All values that are not equal to given value."""

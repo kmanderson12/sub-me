@@ -13,8 +13,6 @@ const loading = keyframes`
 `;
 
 const Form = styled.form`
-  box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.05);
-  background: rgba(0, 0, 0, 0.02);
   padding: 20px;
   font-size: 1.5rem;
   line-height: 1.5;
@@ -42,7 +40,7 @@ const Form = styled.form`
     padding: 0.5rem;
     font-size: 1.5rem;
     font-family: 'Montserrat';
-    border: 2px solid white;
+    border: 2px solid ${props => props.theme.blue};
     border-radius: 6px;
     &:focus {
       outline: 0;
@@ -55,14 +53,16 @@ const Form = styled.form`
     margin: 1rem 0;
     background: ${props => props.theme.yellow};
     color: white;
-    border: 0;
+    border: 2px solid ${props => props.theme.blue};
     font-size: 2rem;
     font-weight: 600;
     border-radius: 8px;
     padding: 1rem 1.2rem;
   }
   fieldset {
-    border: 2px solid white;
+    background-color: #f5deb3;
+    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%230f2c52' fill-opacity='0.11' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+    border: 2px solid ${props => props.theme.blue};
     padding: 2rem;
     border-radius: 14px;
     width: 100%;
@@ -70,6 +70,7 @@ const Form = styled.form`
       opacity: 0.5;
     }
     a {
+      color: white;
       display: block;
       text-align: right;
       font-weight: 300;

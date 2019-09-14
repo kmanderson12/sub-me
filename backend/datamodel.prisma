@@ -8,12 +8,19 @@ enum Permission {
   PERMISSIONUPDATE
 }
 
+enum contactPreferences {
+  Email
+  Text
+}
+
 
 type User {
   id: ID! @id
   name: String!
   email: String! @unique
   password: String!
+  phone: String
+  contactPreference: [contactPreferences!]! @scalarList(strategy: RELATION)
   resetToken: String
   resetTokenExpiry: Float
   permissions: [Permission!]! @scalarList(strategy: RELATION)

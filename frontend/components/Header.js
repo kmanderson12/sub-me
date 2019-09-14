@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import Nav from './Nav';
+import MobileNav from './MobileNav';
 
 Router.onRouteChangeStart = () => {
   NProgress.start();
@@ -56,7 +57,6 @@ const Header = () => (
         <a>SubMe</a>
       </Link>
     </Logo>
-    <Nav />
   </StyledHeader>
 );
 

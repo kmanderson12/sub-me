@@ -61,7 +61,7 @@ class RequestASub extends Component {
                 }}
               >
                 <fieldset>
-                  <legend>Request A Sub</legend>
+                  <h1>Request A Sub</h1>
                   {!error && !loading && called && (
                     <p>Success! Your sub request has been submitted!</p>
                   )}

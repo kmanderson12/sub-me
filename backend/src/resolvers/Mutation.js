@@ -25,6 +25,7 @@ const Mutations = {
           ...args,
           password,
           permissions: { set: ['ADMIN'] },
+          contactPreference: { set: args.contactPreference },
         },
       },
       info
