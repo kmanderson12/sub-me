@@ -9,6 +9,9 @@ const Account = () => (
         {me && (
           <div>
             <h1>Welcome, {me.name}!</h1>
+            <p>Email: {me.email}</p>
+            <p>Phone: {me.phone}</p>
+            <p>Contact Preference: {me.contactPreference}</p>
             <Link href="/request-a-sub">
               <YellowButton>Request A Sub</YellowButton>
             </Link>
