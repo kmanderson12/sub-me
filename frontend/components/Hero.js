@@ -6,6 +6,7 @@ const HeroDiv = styled.div`
   display: flex;
   width: 100%;
   justify-content: flex-start;
+  color: white;
 `;
 
 class HeroComp extends Component {

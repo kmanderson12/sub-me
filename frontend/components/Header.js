@@ -20,7 +20,6 @@ const Logo = styled.h1`
   font-size: 4rem;
   margin: 0 0 0 2rem;
   position: relative;
-  z-index: 2;
   a {
     padding: 0.5rem 3rem;
     color: ${props => props.theme.yellow};
@@ -57,6 +56,7 @@ const Header = () => (
         <a>SubMe</a>
       </Link>
     </Logo>
+    <Nav />
   </StyledHeader>
 );
 

@@ -1,22 +1,20 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 import NavStyles from './styles/NavStyles';
-import YellowButton from './styles/YellowButton'
+import YellowButton from './styles/YellowButton';
+import ClearButton from './styles/ClearButton';
+import Toggle from '../lib/Toggle';
+import Signin from './Signin';
+import Signup from './Signup';
+import Modal from './Modal';
 import User from './User';
 import Signout from './Signout';
 import { Mutation } from 'react-apollo';
-
 
 const Nav = () => (
   <User>
     {({ data: { me } }) => (
       <NavStyles data-test="nav">
-        <Link href="/">
-          <a>Home</a>
-        </Link>
-        <Link href="/about">
-          <a>About</a>
-        </Link>
         {me && (
           <>
             <Link href="/account">
@@ -27,13 +25,31 @@ const Nav = () => (
         )}
         {!me && (
           <>
-          <Link href="/signin">
-            <a>Log In</a>
-          </Link>
-        <Link href="/signup">
-          <YellowButton>Sign Up</YellowButton>
-        </Link>
-        </>
+            <Toggle>
+              {({ on, toggle }) => (
+                <>
+                  <ClearButton onClick={toggle}>Log In</ClearButton>
+                  {on && (
+                    <Modal on={on} toggle={toggle} bgToggle={true}>
+                      <Signin />
+                    </Modal>
+                  )}
+                </>
+              )}
+            </Toggle>
+            <Toggle>
+              {({ on, toggle }) => (
+                <>
+                  <YellowButton onClick={toggle}>Sign Up</YellowButton>
+                  {on && (
+                    <Modal on={on} toggle={toggle} bgToggle={false}>
+                      <Signup />
+                    </Modal>
+                  )}
+                </>
+              )}
+            </Toggle>
+          </>
         )}
       </NavStyles>
     )}

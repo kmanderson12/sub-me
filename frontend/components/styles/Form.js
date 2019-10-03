@@ -13,8 +13,8 @@ const loading = keyframes`
 `;
 
 const Form = styled.form`
-  padding: 20px;
   font-size: 1.5rem;
+  color: ${props => props.theme.blue};
   line-height: 1.5;
   font-weight: 600;
   width: 100%;
@@ -35,7 +35,7 @@ const Form = styled.form`
   select {
     width: 100%;
     background: white;
-    color: ${props => props.theme.black};
+    color: ${props => props.theme.blue};
     outline: none;
     padding: 0.5rem;
     font-size: 1.5rem;
@@ -60,11 +60,8 @@ const Form = styled.form`
     padding: 1rem 1.2rem;
   }
   fieldset {
-    background-color: #f5deb3;
-    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%230f2c52' fill-opacity='0.11' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
-    border: 2px solid ${props => props.theme.blue};
+    border: 0;
     padding: 2rem;
-    border-radius: 14px;
     width: 100%;
     &[disabled] {
       opacity: 0.5;

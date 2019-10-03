@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Link from 'next/link';
+import YellowButton from '../components/styles/YellowButton';
 
 const HeroDiv = styled.div`
   display: flex;
@@ -7,13 +8,7 @@ const HeroDiv = styled.div`
   min-height: 400px;
   justify-content: flex-end;
   flex-direction: column;
-  color: ${props => props.theme.blue};
-  background: linear-gradient(
-    29deg,
-    rgba(255, 255, 255, 0.5) 0%,
-    rgba(255, 255, 255, 0.4) -6%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  color: white;
   h1 {
     margin: 0;
   }
@@ -23,21 +18,9 @@ const HeroDiv = styled.div`
   }
 
   button {
-    background: ${props => props.theme.yellow};
-    color: ${props => props.theme.blue};
-    padding: 1.5rem;
-    border: 1px solid #0f2c52;
-    outline: none;
-    border-radius: 39px;
-    /*box-shadow: 2px 2px 1px rgba(15, 44, 82, 0.4);*/
-    margin-right: 2rem;
     font-size: 3rem;
     font-weight: 800;
-    width: 300px;
-    &:hover {
-      color: ${props => props.theme.offWhite};
-      cursor: pointer;
-    }
+    max-width: 300px;
   }
 `;
 
@@ -51,7 +34,7 @@ const Home = props => (
         Without the last-minute rush.
       </p>
       <Link href="/signup">
-        <button>Get Started</button>
+        <YellowButton>Get Started</YellowButton>
       </Link>
     </HeroDiv>
   </div>
