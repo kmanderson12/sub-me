@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import Form from './styles/Form';
+import FormButton from './styles/FormButton';
 import Error from './ErrorMessage';
 import { CURRENT_USER_QUERY } from './User';
 
@@ -13,7 +14,13 @@ const SIGNUP_MUTATION = gql`
     $phone: String
     $contactPreference: String!
   ) {
-    signup(email: $email, name: $name, password: $password, phone: $phone, contactPreference: $contactPreference) {
+    signup(
+      email: $email
+      name: $name
+      password: $password
+      phone: $phone
+      contactPreference: $contactPreference
+    ) {
       id
       email
       name
@@ -34,15 +41,15 @@ class Signup extends Component {
 
   saveToState = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   handleOptionChange = e => {
     this.setState({
-      contactPreference: e.target.value
-    })
-  }
+      contactPreference: e.target.value,
+    });
+  };
 
   render() {
     return (
@@ -119,7 +126,7 @@ class Signup extends Component {
                     name="text"
                     placeholder="text"
                     value="Text"
-                    checked={this.state.contactPreference === "Text"}
+                    checked={this.state.contactPreference === 'Text'}
                     onChange={this.handleOptionChange}
                   />
                 </label>
@@ -130,11 +137,11 @@ class Signup extends Component {
                     name="EmailMessage"
                     placeholder="EmailMessage"
                     value="Email"
-                    checked={this.state.contactPreference === "Email"}
+                    checked={this.state.contactPreference === 'Email'}
                     onChange={this.handleOptionChange}
                   />
                 </label>
-                <button type="submit">Sign Up!</button>
+                <FormButton type="submit">Sign Up</FormButton>
               </fieldset>
             </Form>
           );

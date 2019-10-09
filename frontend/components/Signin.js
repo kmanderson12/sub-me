@@ -3,6 +3,7 @@ import { Mutation } from 'react-apollo';
 import Link from 'next/link';
 import Router from 'next/router';
 import gql from 'graphql-tag';
+import FormButton from './styles/FormButton';
 import Form from './styles/Form';
 import Error from './ErrorMessage';
 import { CURRENT_USER_QUERY } from './User';
@@ -81,7 +82,7 @@ class Signin extends Component {
                   />
                 </label>
 
-                <button type="submit">Sign In!</button>
+                <FormButton type="submit">Sign In</FormButton>
                 <Link href="/requestreset">Forgot your password?</Link>
               </fieldset>
             </Form>

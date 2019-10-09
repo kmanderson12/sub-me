@@ -25,8 +25,7 @@ const StyledPage = styled.div`
   background-repeat: no-repeat;
   background-size: cover; */
   color: ${props => props.theme.black};
-  background: linear-gradient(#54b5cead ,#0f2c52 ),url('static/pattern-light.svg');
-  background-size: 900px;
+  background: linear-gradient(#54b5cead , #f5deb3),url('static/pattern-light.svg');
   min-height: 100vh;
 `;
 
@@ -42,7 +41,7 @@ injectGlobal`
         box-sizing: border-box;
         font-size: 10px;
         font-family: "Montserrat";
-        background: #0f2c52;
+        background: #f5deb3;
     }
     *, *:before, *:after {
         box-sizing: inherit;

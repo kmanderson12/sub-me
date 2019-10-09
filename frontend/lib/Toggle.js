@@ -9,6 +9,10 @@ class Toggle extends Component {
     this.setState({
       on: !this.state.on,
     });
+    if (this.state.on) {
+      document.getElementById('__next').style.overflow = 'hidden';
+      // document.body.style.top = `-${window.scrollY}px`;
+    }
   };
   render() {
     const { children } = this.props;

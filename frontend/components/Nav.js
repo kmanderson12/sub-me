@@ -11,6 +11,23 @@ import User from './User';
 import Signout from './Signout';
 import { Mutation } from 'react-apollo';
 
+const HeaderSignUp = styled(YellowButton)`
+  margin-right: 2rem;
+  font-size: 1.2rem;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  &:hover {
+    /* color: ${props => props.theme.offWhite}; */
+    border-bottom: 1px solid #0f2c52;
+  }
+`;
+
+const HeaderLogIn = styled(ClearButton)`
+  margin-right: 2rem;
+  font-size: 1.2rem;
+  padding: 0.5em 0.75em;
+`;
+
 const Nav = () => (
   <User>
     {({ data: { me } }) => (
@@ -28,7 +45,7 @@ const Nav = () => (
             <Toggle>
               {({ on, toggle }) => (
                 <>
-                  <ClearButton onClick={toggle}>Log In</ClearButton>
+                  <HeaderLogIn onClick={toggle}>Log In</HeaderLogIn>
                   {on && (
                     <Modal on={on} toggle={toggle} bgToggle={true}>
                       <Signin />
@@ -40,7 +57,7 @@ const Nav = () => (
             <Toggle>
               {({ on, toggle }) => (
                 <>
-                  <YellowButton onClick={toggle}>Sign Up</YellowButton>
+                  <HeaderSignUp onClick={toggle}>Sign Up</HeaderSignUp>
                   {on && (
                     <Modal on={on} toggle={toggle} bgToggle={false}>
                       <Signup />

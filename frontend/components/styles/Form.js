@@ -14,7 +14,7 @@ const loading = keyframes`
 
 const Form = styled.form`
   font-size: 1.5rem;
-  color: ${props => props.theme.blue};
+  color: #525252;
   line-height: 1.5;
   font-weight: 600;
   width: 100%;
@@ -35,16 +35,18 @@ const Form = styled.form`
   select {
     width: 100%;
     background: white;
-    color: ${props => props.theme.blue};
+    color: #9c9c9c;
     outline: none;
     padding: 0.5rem;
     font-size: 1.5rem;
     font-family: 'Montserrat';
-    border: 2px solid ${props => props.theme.blue};
-    border-radius: 6px;
+    border: none;
+    border-radius: 0;
+    border-bottom: 2px solid ${props => props.theme.yellow};
+    /* border-radius: 6px; */
     &:focus {
       outline: 0;
-      border-color: ${props => props.theme.yellow};
+      border-color: #f5deb3;
     }
   }
   button,

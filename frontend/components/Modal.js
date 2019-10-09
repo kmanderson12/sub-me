@@ -46,13 +46,13 @@ const ModalWrapper = styled.div`
 
 const ModalCard = styled(Card)`
   position: relative;
-  min-width: 400px;
+  /* min-width: 400px; */
   z-index: 10;
   border: 2px solid ${props => props.theme.blue};
-  border-radius: 14px;
+  border-radius: 8px;
   margin-top: 100px;
   margin-bottom: 100px;
-  background: url('static/pattern-light.svg');
+  /* background: url('static/pattern-light.svg'); */
   background-size: 700px;
 `;
 
