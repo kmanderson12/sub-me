@@ -62,6 +62,9 @@ class Signup extends Component {
           return (
             <Form
               method="POST"
+              style={{
+                background: 'white',
+              }}
               onSubmit={async e => {
                 e.preventDefault();
                 await signup();
