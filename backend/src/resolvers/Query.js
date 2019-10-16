@@ -9,7 +9,7 @@ const Query = {
     }
     return ctx.db.query.user(
       {
-        where: { id: ctx.request.userId }
+        where: { id: ctx.request.userId },
       },
       info
     );
@@ -23,7 +23,10 @@ const Query = {
     hasPermission(ctx.request.user, ['ADMIN', 'PERMISSIONUPDATE']);
     //3. if they do, query all users
     return ctx.db.query.users({}, info);
-  }
+  },
+  async organizations(parent, args, ctx, info) {
+    return ctx.db.query.organizations({}, info);
+  },
 };
 
 module.exports = Query;

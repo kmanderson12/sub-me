@@ -11,6 +11,11 @@ const CURRENT_USER_QUERY = gql`
       permissions
       phone
       contactPreference
+      memberships {
+        organization {
+          name
+        }
+      }
     }
   }
 `;

@@ -22,11 +22,14 @@ type Mutation {
   ): User!
   updatePermissions(permissions: [Permission], userId: ID!): User
   handleAbsence(name: String!, date: String!, grade: String!): SuccessMessage
+  createOrganization(name: String!): Organization!
+  createMembership(user: ID!, organization: ID!): Membership!
 }
 
 type Query {
   me: User
   users: [User]!
+  organizations: [Organization]!
 }
 
 type User {
@@ -37,4 +40,18 @@ type User {
   permissions: [Permission!]!
   phone: String
   contactPreference: [contactPreferences!]!
+  memberships: [Membership]!
+}
+
+type Organization {
+  id: ID!
+  name: String!
+  memberships: [Membership]!
+}
+
+type Membership {
+  id: ID!
+  user: User!
+  organization: Organization!
+  role: [Permission!]!
 }

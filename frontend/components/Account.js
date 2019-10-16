@@ -81,6 +81,7 @@ const DaysOfTheWeek = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: nowrap;
+  margin: 0 auto;
   border: 2px solid rgba(43, 90, 102, 0.7);
   border-radius: 8px;
   max-width: 400px;
@@ -98,12 +99,14 @@ const Account = () => (
         {me && (
           <>
             <ProfileCard>
-              <img src="static/me_square.png" alt="me" />
+              <img
+                src="static/me_square.png"
+                alt="me"
+                onClick={() => console.log({ me })}
+              />
               <h1>{me.name}</h1>
               <h3>Substitute Teacher</h3>
-              <p>☺︎Profile</p>
-              <p>✎Tools</p>
-              <p>⚙ Account Settings</p>
+              <p>{me.memberships[0].organization.name}</p>
             </ProfileCard>
             <AccountContainer>
               <LeftDiv>

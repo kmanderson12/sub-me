@@ -1,5 +1,13 @@
 # source: https://us1.prisma.sh/kyle-anderson-c59e41/sub-me/dev
-# timestamp: Fri Sep 13 2019 20:55:14 GMT-0500 (Central Daylight Time)
+# timestamp: Tue Oct 15 2019 17:38:28 GMT-0500 (Central Daylight Time)
+
+type AggregateMembership {
+  count: Int!
+}
+
+type AggregateOrganization {
+  count: Int!
+}
 
 type AggregateUser {
   count: Int!
@@ -23,13 +31,416 @@ Long can represent values between -(2^63) and 2^63 - 1.
 """
 scalar Long
 
+type Membership implements Node {
+  id: ID!
+  organization: Organization
+  user: User
+  role: [Permission!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type MembershipConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [MembershipEdge]!
+  aggregate: AggregateMembership!
+}
+
+input MembershipCreateInput {
+  id: ID
+  role: MembershipCreateroleInput
+  organization: OrganizationCreateOneWithoutMembershipsInput
+  user: UserCreateOneWithoutMembershipsInput
+}
+
+input MembershipCreateManyWithoutOrganizationInput {
+  create: [MembershipCreateWithoutOrganizationInput!]
+  connect: [MembershipWhereUniqueInput!]
+}
+
+input MembershipCreateManyWithoutUserInput {
+  create: [MembershipCreateWithoutUserInput!]
+  connect: [MembershipWhereUniqueInput!]
+}
+
+input MembershipCreateroleInput {
+  set: [Permission!]
+}
+
+input MembershipCreateWithoutOrganizationInput {
+  id: ID
+  role: MembershipCreateroleInput
+  user: UserCreateOneWithoutMembershipsInput
+}
+
+input MembershipCreateWithoutUserInput {
+  id: ID
+  role: MembershipCreateroleInput
+  organization: OrganizationCreateOneWithoutMembershipsInput
+}
+
+"""An edge in a connection."""
+type MembershipEdge {
+  """The item at the end of the edge."""
+  node: Membership!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum MembershipOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type MembershipPreviousValues {
+  id: ID!
+  role: [Permission!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input MembershipScalarWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MembershipScalarWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MembershipScalarWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MembershipScalarWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+}
+
+type MembershipSubscriptionPayload {
+  mutation: MutationType!
+  node: Membership
+  updatedFields: [String!]
+  previousValues: MembershipPreviousValues
+}
+
+input MembershipSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MembershipSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MembershipSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MembershipSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: MembershipWhereInput
+}
+
+input MembershipUpdateInput {
+  role: MembershipUpdateroleInput
+  organization: OrganizationUpdateOneWithoutMembershipsInput
+  user: UserUpdateOneWithoutMembershipsInput
+}
+
+input MembershipUpdateManyDataInput {
+  role: MembershipUpdateroleInput
+}
+
+input MembershipUpdateManyMutationInput {
+  role: MembershipUpdateroleInput
+}
+
+input MembershipUpdateManyWithoutOrganizationInput {
+  create: [MembershipCreateWithoutOrganizationInput!]
+  connect: [MembershipWhereUniqueInput!]
+  set: [MembershipWhereUniqueInput!]
+  disconnect: [MembershipWhereUniqueInput!]
+  delete: [MembershipWhereUniqueInput!]
+  update: [MembershipUpdateWithWhereUniqueWithoutOrganizationInput!]
+  updateMany: [MembershipUpdateManyWithWhereNestedInput!]
+  deleteMany: [MembershipScalarWhereInput!]
+  upsert: [MembershipUpsertWithWhereUniqueWithoutOrganizationInput!]
+}
+
+input MembershipUpdateManyWithoutUserInput {
+  create: [MembershipCreateWithoutUserInput!]
+  connect: [MembershipWhereUniqueInput!]
+  set: [MembershipWhereUniqueInput!]
+  disconnect: [MembershipWhereUniqueInput!]
+  delete: [MembershipWhereUniqueInput!]
+  update: [MembershipUpdateWithWhereUniqueWithoutUserInput!]
+  updateMany: [MembershipUpdateManyWithWhereNestedInput!]
+  deleteMany: [MembershipScalarWhereInput!]
+  upsert: [MembershipUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input MembershipUpdateManyWithWhereNestedInput {
+  where: MembershipScalarWhereInput!
+  data: MembershipUpdateManyDataInput!
+}
+
+input MembershipUpdateroleInput {
+  set: [Permission!]
+}
+
+input MembershipUpdateWithoutOrganizationDataInput {
+  role: MembershipUpdateroleInput
+  user: UserUpdateOneWithoutMembershipsInput
+}
+
+input MembershipUpdateWithoutUserDataInput {
+  role: MembershipUpdateroleInput
+  organization: OrganizationUpdateOneWithoutMembershipsInput
+}
+
+input MembershipUpdateWithWhereUniqueWithoutOrganizationInput {
+  where: MembershipWhereUniqueInput!
+  data: MembershipUpdateWithoutOrganizationDataInput!
+}
+
+input MembershipUpdateWithWhereUniqueWithoutUserInput {
+  where: MembershipWhereUniqueInput!
+  data: MembershipUpdateWithoutUserDataInput!
+}
+
+input MembershipUpsertWithWhereUniqueWithoutOrganizationInput {
+  where: MembershipWhereUniqueInput!
+  update: MembershipUpdateWithoutOrganizationDataInput!
+  create: MembershipCreateWithoutOrganizationInput!
+}
+
+input MembershipUpsertWithWhereUniqueWithoutUserInput {
+  where: MembershipWhereUniqueInput!
+  update: MembershipUpdateWithoutUserDataInput!
+  create: MembershipCreateWithoutUserInput!
+}
+
+input MembershipWhereInput {
+  """Logical AND on all given filters."""
+  AND: [MembershipWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [MembershipWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [MembershipWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  organization: OrganizationWhereInput
+  user: UserWhereInput
+}
+
+input MembershipWhereUniqueInput {
+  id: ID
+}
+
 type Mutation {
   createUser(data: UserCreateInput!): User!
+  createOrganization(data: OrganizationCreateInput!): Organization!
+  createMembership(data: MembershipCreateInput!): Membership!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateOrganization(data: OrganizationUpdateInput!, where: OrganizationWhereUniqueInput!): Organization
+  updateMembership(data: MembershipUpdateInput!, where: MembershipWhereUniqueInput!): Membership
   deleteUser(where: UserWhereUniqueInput!): User
+  deleteOrganization(where: OrganizationWhereUniqueInput!): Organization
+  deleteMembership(where: MembershipWhereUniqueInput!): Membership
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertOrganization(where: OrganizationWhereUniqueInput!, create: OrganizationCreateInput!, update: OrganizationUpdateInput!): Organization!
+  upsertMembership(where: MembershipWhereUniqueInput!, create: MembershipCreateInput!, update: MembershipUpdateInput!): Membership!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  updateManyOrganizations(data: OrganizationUpdateManyMutationInput!, where: OrganizationWhereInput): BatchPayload!
+  updateManyMemberships(data: MembershipUpdateManyMutationInput!, where: MembershipWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyOrganizations(where: OrganizationWhereInput): BatchPayload!
+  deleteManyMemberships(where: MembershipWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -42,6 +453,275 @@ enum MutationType {
 interface Node {
   """The id of the object."""
   id: ID!
+}
+
+type Organization implements Node {
+  id: ID!
+  name: String!
+  memberships(where: MembershipWhereInput, orderBy: MembershipOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Membership!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""A connection to a list of items."""
+type OrganizationConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [OrganizationEdge]!
+  aggregate: AggregateOrganization!
+}
+
+input OrganizationCreateInput {
+  id: ID
+  name: String!
+  memberships: MembershipCreateManyWithoutOrganizationInput
+}
+
+input OrganizationCreateOneWithoutMembershipsInput {
+  create: OrganizationCreateWithoutMembershipsInput
+  connect: OrganizationWhereUniqueInput
+}
+
+input OrganizationCreateWithoutMembershipsInput {
+  id: ID
+  name: String!
+}
+
+"""An edge in a connection."""
+type OrganizationEdge {
+  """The item at the end of the edge."""
+  node: Organization!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum OrganizationOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type OrganizationPreviousValues {
+  id: ID!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type OrganizationSubscriptionPayload {
+  mutation: MutationType!
+  node: Organization
+  updatedFields: [String!]
+  previousValues: OrganizationPreviousValues
+}
+
+input OrganizationSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [OrganizationSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [OrganizationSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [OrganizationSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: OrganizationWhereInput
+}
+
+input OrganizationUpdateInput {
+  name: String
+  memberships: MembershipUpdateManyWithoutOrganizationInput
+}
+
+input OrganizationUpdateManyMutationInput {
+  name: String
+}
+
+input OrganizationUpdateOneWithoutMembershipsInput {
+  create: OrganizationCreateWithoutMembershipsInput
+  connect: OrganizationWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: OrganizationUpdateWithoutMembershipsDataInput
+  upsert: OrganizationUpsertWithoutMembershipsInput
+}
+
+input OrganizationUpdateWithoutMembershipsDataInput {
+  name: String
+}
+
+input OrganizationUpsertWithoutMembershipsInput {
+  update: OrganizationUpdateWithoutMembershipsDataInput!
+  create: OrganizationCreateWithoutMembershipsInput!
+}
+
+input OrganizationWhereInput {
+  """Logical AND on all given filters."""
+  AND: [OrganizationWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [OrganizationWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [OrganizationWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  createdAt: DateTime
+
+  """All values that are not equal to given value."""
+  createdAt_not: DateTime
+
+  """All values that are contained in given list."""
+  createdAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  createdAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  createdAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  createdAt_lte: DateTime
+
+  """All values greater than the given value."""
+  createdAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+
+  """All values that are not equal to given value."""
+  updatedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  updatedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  updatedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  updatedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  updatedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  updatedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  updatedAt_gte: DateTime
+  memberships_every: MembershipWhereInput
+  memberships_some: MembershipWhereInput
+  memberships_none: MembershipWhereInput
+}
+
+input OrganizationWhereUniqueInput {
+  id: ID
 }
 
 """Information about pagination in a connection."""
@@ -71,8 +751,14 @@ enum Permission {
 
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  organizations(where: OrganizationWhereInput, orderBy: OrganizationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Organization]!
+  memberships(where: MembershipWhereInput, orderBy: MembershipOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Membership]!
   user(where: UserWhereUniqueInput!): User
+  organization(where: OrganizationWhereUniqueInput!): Organization
+  membership(where: MembershipWhereUniqueInput!): Membership
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  organizationsConnection(where: OrganizationWhereInput, orderBy: OrganizationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): OrganizationConnection!
+  membershipsConnection(where: MembershipWhereInput, orderBy: MembershipOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MembershipConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -83,6 +769,8 @@ type Query {
 
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  organization(where: OrganizationSubscriptionWhereInput): OrganizationSubscriptionPayload
+  membership(where: MembershipSubscriptionWhereInput): MembershipSubscriptionPayload
 }
 
 type User implements Node {
@@ -95,6 +783,7 @@ type User implements Node {
   resetToken: String
   resetTokenExpiry: Float
   permissions: [Permission!]!
+  memberships(where: MembershipWhereInput, orderBy: MembershipOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Membership!]
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -123,10 +812,28 @@ input UserCreateInput {
   resetTokenExpiry: Float
   contactPreference: UserCreatecontactPreferenceInput
   permissions: UserCreatepermissionsInput
+  memberships: MembershipCreateManyWithoutUserInput
+}
+
+input UserCreateOneWithoutMembershipsInput {
+  create: UserCreateWithoutMembershipsInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreatepermissionsInput {
   set: [Permission!]
+}
+
+input UserCreateWithoutMembershipsInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  phone: String
+  resetToken: String
+  resetTokenExpiry: Float
+  contactPreference: UserCreatecontactPreferenceInput
+  permissions: UserCreatepermissionsInput
 }
 
 """An edge in a connection."""
@@ -225,6 +932,7 @@ input UserUpdateInput {
   resetTokenExpiry: Float
   contactPreference: UserUpdatecontactPreferenceInput
   permissions: UserUpdatepermissionsInput
+  memberships: MembershipUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -238,8 +946,33 @@ input UserUpdateManyMutationInput {
   permissions: UserUpdatepermissionsInput
 }
 
+input UserUpdateOneWithoutMembershipsInput {
+  create: UserCreateWithoutMembershipsInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateWithoutMembershipsDataInput
+  upsert: UserUpsertWithoutMembershipsInput
+}
+
 input UserUpdatepermissionsInput {
   set: [Permission!]
+}
+
+input UserUpdateWithoutMembershipsDataInput {
+  name: String
+  email: String
+  password: String
+  phone: String
+  resetToken: String
+  resetTokenExpiry: Float
+  contactPreference: UserUpdatecontactPreferenceInput
+  permissions: UserUpdatepermissionsInput
+}
+
+input UserUpsertWithoutMembershipsInput {
+  update: UserUpdateWithoutMembershipsDataInput!
+  create: UserCreateWithoutMembershipsInput!
 }
 
 input UserWhereInput {
@@ -557,6 +1290,9 @@ input UserWhereInput {
 
   """All values greater than or equal the given value."""
   updatedAt_gte: DateTime
+  memberships_every: MembershipWhereInput
+  memberships_some: MembershipWhereInput
+  memberships_none: MembershipWhereInput
 }
 
 input UserWhereUniqueInput {

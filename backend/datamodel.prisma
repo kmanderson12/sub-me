@@ -24,6 +24,27 @@ type User {
   resetToken: String
   resetTokenExpiry: Float
   permissions: [Permission!]! @scalarList(strategy: RELATION)
+  memberships: [Membership] @relation(name: "UserOnMembership")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
+
+type Organization {
+  id: ID! @id
+  name: String!
+  memberships: [Membership] @relation(name: "OrganizationOnMembership")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Membership  {
+  id: ID! @id
+  organization: Organization @relation(name: "OrganizationOnMembership")
+  user: User @relation(name: "UserOnMembership")
+  role: [Permission!]! @scalarList(strategy: RELATION)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+
+

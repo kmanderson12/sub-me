@@ -47,7 +47,50 @@ const Mutations = {
     // return user to browser
     return user;
   },
-
+  async createOrganization(parent, args, ctx, info) {
+    //check if logged in
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in!');
+    }
+    // query current user
+    const currentUser = await ctx.db.query.user(
+      {
+        where: {
+          id: ctx.request.userId,
+        },
+      },
+      info
+    );
+    const organization = await ctx.db.mutation.createOrganization(
+      {
+        data: {
+          ...args,
+        },
+      },
+      info
+    );
+    return organization;
+  },
+  async createMembership(parent, args, ctx, info) {
+    const membership = await ctx.db.mutation.createMembership(
+      {
+        data: {
+          ...args,
+          user: {
+            connect: { id: [args.user] },
+          },
+          organization: {
+            connect: { id: [args.organization] },
+          },
+          role: {
+            set: ['ADMIN'],
+          },
+        },
+      },
+      info
+    );
+    return membership;
+  },
   async signin(parent, { email, password }, ctx, info) {
     //check if user with email
     const user = await ctx.db.query.user({ where: { email } });
