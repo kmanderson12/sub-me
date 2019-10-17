@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import User from './User';
 import Link from 'next/link';
 import YellowButton from './styles/YellowButton';
+import Availability from './Availability';
 
 const ProfileCard = styled.div`
   position: relative;
@@ -76,22 +77,6 @@ const CenterDiv = styled.div`
   }
 `;
 
-const DaysOfTheWeek = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  flex-wrap: nowrap;
-  margin: 0 auto;
-  border: 2px solid rgba(43, 90, 102, 0.7);
-  border-radius: 8px;
-  max-width: 400px;
-`;
-
-const Day = styled.div`
-  flex-grow: 1;
-  border: 1px solid rgba(43, 90, 102, 0.3);
-`;
-
 const Account = () => (
   <User>
     {({ data: { me } }) => (
@@ -111,40 +96,7 @@ const Account = () => (
             <AccountContainer>
               <LeftDiv>
                 <h3>Availability</h3>
-                <DaysOfTheWeek>
-                  <Day>M</Day>
-                  <Day>T</Day>
-                  <Day>W</Day>
-                  <Day>Th</Day>
-                  <Day>F</Day>
-                </DaysOfTheWeek>
-                <label htmlFor="fullDay">
-                  <input
-                    type="radio"
-                    name="fullDay"
-                    value="Full Day"
-                    placeholder="Full Day"
-                  />
-                  Full Day
-                </label>
-                <label htmlFor="halfDay">
-                  <input
-                    type="radio"
-                    name="halfDay"
-                    value="Half Day"
-                    placeholder="Half Day"
-                  />
-                  Half Day
-                </label>
-                <label htmlFor="notAvailable">
-                  <input
-                    type="radio"
-                    name="notAvailable"
-                    value="Not Available"
-                    placeholder="Not Available"
-                  />
-                  Not Available
-                </label>
+                <Availability />
               </LeftDiv>
               <CenterDiv />
               <RightDiv>
