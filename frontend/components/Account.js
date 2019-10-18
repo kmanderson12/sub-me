@@ -50,6 +50,7 @@ const AccountContainer = styled.div`
   justify-content: flex-start;
   flex-wrap: wrap;
   width: 100%;
+  min-height: 600px;
   background: white;
   border: 2px solid ${props => props.theme.blue};
   border-radius: 8px;

@@ -1,15 +1,229 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Query, Mutation } from 'react-apollo';
+import Error from './ErrorMessage';
+import gql from 'graphql-tag';
 import User from './User';
 import Link from 'next/link';
 import YellowButton from './styles/YellowButton';
+
+const GET_STATE_MUTATION = gql`
+  mutation getState($state: String!) {
+    getState(state: $state) {
+      message
+    }
+  }
+`;
+
+class Availability extends Component {
+  state = {
+    checked: false,
+    selectedDay: '',
+    Monday: {
+      available: false,
+      amount: '',
+    },
+    Tuesday: {
+      available: false,
+      amount: '',
+    },
+    Wednesday: {
+      available: false,
+      amount: '',
+    },
+    Thursday: {
+      available: false,
+      amount: '',
+    },
+    Friday: {
+      available: false,
+      amount: '',
+    },
+  };
+  getDayStatus = d => {
+    switch (d) {
+      case 'Monday':
+        return this.state.Monday.available;
+      case 'Tuesday':
+        return this.state.Tuesday.available;
+      case 'Wednesday':
+        return this.state.Wednesday.available;
+      case 'Thursday':
+        return this.state.Thursday.available;
+      case 'Friday':
+        return this.state.Friday.available;
+      default:
+        return false;
+    }
+  };
+  getAmountStatus = d => {
+    switch (d) {
+      case 'Monday':
+        return this.state.Monday.amount;
+      case 'Tuesday':
+        return this.state.Tuesday.amount;
+      case 'Wednesday':
+        return this.state.Wednesday.amount;
+      case 'Thursday':
+        return this.state.Thursday.amount;
+      case 'Friday':
+        return this.state.Friday.amount;
+      default:
+        return '';
+    }
+  };
+  setAvailable = e => {
+    this.setState({
+      checked: !this.state.checked,
+    });
+  };
+  setDayAvailable = e => {
+    const currentDay = this.state.selectedDay;
+    this.setState({
+      [currentDay]: {
+        available: !this.getDayStatus(currentDay),
+      },
+    });
+  };
+  setDay = e => {
+    this.setState({
+      selectedDay: e.target.name,
+    });
+  };
+  setAmount = e => {
+    const currentDay = this.state.selectedDay;
+    this.setState({
+      [currentDay]: {
+        available: this.getDayStatus(currentDay),
+        amount: e.target.name,
+      },
+    });
+  };
+  render() {
+    return (
+      <Mutation
+        mutation={GET_STATE_MUTATION}
+        variables={{
+          state: JSON.stringify(this.state),
+        }}
+      >
+        {(getState, { loading, error }) => (
+          <div>
+            <DaysOfTheWeek>
+              <Day
+                onClick={this.setDay}
+                name="Monday"
+                selectedDay={this.state.selectedDay}
+                available={this.state.Monday.available}
+              >
+                M
+              </Day>
+              <Day
+                onClick={this.setDay}
+                name="Tuesday"
+                selectedDay={this.state.selectedDay}
+                available={this.state.Tuesday.available}
+              >
+                T
+              </Day>
+              <Day
+                onClick={this.setDay}
+                name="Wednesday"
+                selectedDay={this.state.selectedDay}
+                available={this.state.Wednesday.available}
+              >
+                W
+              </Day>
+              <Day
+                onClick={this.setDay}
+                name="Thursday"
+                selectedDay={this.state.selectedDay}
+                available={this.state.Thursday.available}
+              >
+                Th
+              </Day>
+              <Day
+                onClick={this.setDay}
+                name="Friday"
+                selectedDay={this.state.selectedDay}
+                available={this.state.Friday.available}
+              >
+                F
+              </Day>
+            </DaysOfTheWeek>
+            {this.state.selectedDay === '' ? (
+              <p>Select a day to set availability</p>
+            ) : (
+              <>
+                <YellowButton onClick={getState}>
+                  Update Availability
+                </YellowButton>
+                <p>{this.state.selectedDay}</p>
+                <ToggleSwitch
+                  currentDayStatus={this.getDayStatus(this.state.selectedDay)}
+                >
+                  <label class="switch">
+                    <input
+                      disabled={this.state.setAvailable === '' ? true : false}
+                      id="avail"
+                      type="checkbox"
+                      onChange={this.setDayAvailable}
+                      checked={this.getDayStatus(this.state.selectedDay)}
+                    />
+                    <span class="slider round"></span>
+                  </label>
+                  {!this.getDayStatus(this.state.selectedDay) ? (
+                    <p
+                      className="toggleLabel"
+                      style={{
+                        color: '#00000096',
+                      }}
+                    >
+                      Not Available
+                    </p>
+                  ) : (
+                    <>
+                      <p className="toggleLabel">Available</p>
+                      <ButtonGroup>
+                        <BtnInGroup
+                          onClick={this.setAmount}
+                          amountStatus={this.getAmountStatus(
+                            this.state.selectedDay
+                          )}
+                          name="Full"
+                        >
+                          Full Day
+                        </BtnInGroup>
+                        <BtnInGroup
+                          onClick={this.setAmount}
+                          amountStatus={this.getAmountStatus(
+                            this.state.selectedDay
+                          )}
+                          name="Half"
+                        >
+                          Half Day
+                        </BtnInGroup>
+                      </ButtonGroup>
+                    </>
+                  )}
+                </ToggleSwitch>
+              </>
+            )}
+          </div>
+        )}
+      </Mutation>
+    );
+  }
+}
+
+export default Availability;
 
 const ToggleSwitch = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  p {
+  .toggleLabel {
     font-size: 1.25rem;
     margin: 0;
   }
@@ -100,163 +314,54 @@ const DaysOfTheWeek = styled.div`
     border-radius: 0 5px 5px 0;
     border-right: none;
   }
-  button:focus {
-    background: #f5deb394;
-  }
 `;
 
 const Day = styled.button`
   flex-grow: 1;
   border: 1px solid rgba(43, 90, 102, 0.3);
-  background: white;
+  background: ${props => (props.available ? '#54CE68' : '#FBB8B8')};
+  opacity: ${props => (props.selectedDay === props.name ? 0.7 : 1)};
+  color: ${props =>
+    props.selectedDay === props.name ? 'white' : props.theme.black};
   border: none;
   &:hover {
     cursor: pointer;
   }
 `;
 
-class Availability extends Component {
-  state = {
-    checked: false,
-    selectedDay: '',
-    Monday: {
-      available: false,
-      color: 'white',
-    },
-    Tuesday: {
-      available: false,
-      color: 'white',
-    },
-    Wednesday: {
-      available: false,
-      color: 'white',
-    },
-    Thursday: {
-      available: false,
-      color: 'white',
-    },
-    Friday: {
-      available: false,
-      color: 'white',
-    },
-  };
-  getDayStatus = d => {
-    switch (d) {
-      case 'Monday':
-        return this.state.Monday.available;
-      case 'Tuesday':
-        return this.state.Tuesday.available;
-      case 'Wednesday':
-        return this.state.Wednesday.available;
-      case 'Thursday':
-        return this.state.Thursday.available;
-      case 'Friday':
-        return this.state.Friday.available;
-      default:
-        return false;
-    }
-  };
-  setAvailable = e => {
-    this.setState({
-      checked: !this.state.checked,
-    });
-  };
-  setDayAvailable = e => {
-    const currentDay = this.state.selectedDay;
-    console.log(this.getDayStatus(currentDay));
-    this.setState({
-      [currentDay]: {
-        available: !this.getDayStatus(currentDay),
-        color: !this.getDayStatus(currentDay) ? '#54CE68' : '#FBB8B8',
-      },
-    });
-  };
-  setDay = e => {
-    this.setState({
-      selectedDay: e.target.name,
-    });
-  };
-  render() {
-    return (
-      <div>
-        <DaysOfTheWeek>
-          <Day
-            onClick={this.setDay}
-            style={{
-              background: this.state.Monday.color,
-            }}
-            name="Monday"
-          >
-            M
-          </Day>
-          <Day
-            onClick={this.setDay}
-            style={{
-              background: this.state.Tuesday.color,
-            }}
-            name="Tuesday"
-          >
-            T
-          </Day>
-          <Day
-            onClick={this.setDay}
-            style={{
-              background: this.state.Wednesday.color,
-            }}
-            name="Wednesday"
-          >
-            W
-          </Day>
-          <Day
-            onClick={this.setDay}
-            style={{
-              background: this.state.Thursday.color,
-            }}
-            name="Thursday"
-          >
-            Th
-          </Day>
-          <Day
-            onClick={this.setDay}
-            style={{
-              background: this.state.Friday.color,
-            }}
-            name="Friday"
-          >
-            F
-          </Day>
-        </DaysOfTheWeek>
-        {this.state.selectedDay === '' ? (
-          <p>Select a day to set availability</p>
-        ) : (
-          <p>{this.state.selectedDay}</p>
-        )}
-        <ToggleSwitch>
-          <label class="switch">
-            <input
-              disabled={this.state.setAvailable === '' ? true : false}
-              id="avail"
-              type="checkbox"
-              onChange={this.setDayAvailable}
-              checked={this.getDayStatus(this.state.selectedDay)}
-            />
-            <span class="slider round"></span>
-          </label>
-          {this.getDayStatus(this.state.selectedDay) ? (
-            <p>Available</p>
-          ) : (
-            <p
-              style={{
-                color: '#00000096',
-              }}
-            >
-              Not Available
-            </p>
-          )}
-        </ToggleSwitch>
-      </div>
-    );
+const ButtonGroup = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  margin-top: 1rem;
+  max-width: 400px;
+  border: 2px solid rgba(43, 90, 102, 0.7);
+  border-radius: 8px;
+  button {
+    border-right: 1px solid rgba(43, 90, 102, 0.7);
+    font-family: 'Montserrat';
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    outline: none;
   }
-}
-
-export default Availability;
+  button:first-child {
+    border-radius: 5px 0 0 5px;
+  }
+  button:last-child {
+    border-radius: 0 5px 5px 0;
+    border-right: none;
+  }
+`;
+const BtnInGroup = styled.button`
+  flex-grow: 1;
+  border: 1px solid rgba(43, 90, 102, 0.3);
+  background: ${props =>
+    props.amountStatus === props.name ? '#54b5ce' : '#ccccccb5'};
+  color: ${props =>
+    props.amountStatus === props.name ? 'white' : '#393939c2'};
+  border: none;
+  &:hover {
+    cursor: pointer;
+  }
+`;

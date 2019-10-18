@@ -13,6 +13,14 @@ const authToken = process.env.TWILIO_TOKEN;
 const client = require('twilio')(accountSid, authToken);
 
 const Mutations = {
+  async getState(parent, args, ctx, info) {
+    // 0. Check user, of course
+    // 1. Get Availability State as String and parse it
+    const data = JSON.parse(args.state);
+    console.log(data);
+    // 2. Run Updates for
+    return { message: 'Success!' };
+  },
   async signup(parent, args, ctx, info) {
     args.email = args.email.toLowerCase();
     // hash their pw

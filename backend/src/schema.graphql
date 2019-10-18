@@ -24,6 +24,7 @@ type Mutation {
   handleAbsence(name: String!, date: String!, grade: String!): SuccessMessage
   createOrganization(name: String!): Organization!
   createMembership(user: ID!, organization: ID!): Membership!
+  getState(state: String!): SuccessMessage
 }
 
 type Query {
